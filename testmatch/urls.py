@@ -17,6 +17,9 @@ import sys
 sys.path.append("..")
 
 from matchup import views
+from django.conf import settings
+
+from django.conf.urls.static import static
 
 from rest_framework import routers
 from django.contrib import admin
@@ -26,11 +29,16 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 router.register(r'api/match', views.MatchContentViewSet)
-# router.register(r'api/game', views.MatchupGameViewSet)
+router.register(r'api/template', views.EntryViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
 
+
 ]
+
+if settings:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

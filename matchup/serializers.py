@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import MatchModel, MatchContent
+from .models import MatchModel, MatchContent, Entry
 from rest_meets_djongo.serializers import DjongoModelSerializer
 
 
@@ -23,37 +23,50 @@ class MatchContentSerializer(DjongoModelSerializer):
         abstract = True
 
 
-###############################
-#
-# class MatchImageSerializer(DjongoModelSerializer):
-#     class Meta:
-#         fields = 'match_image'
-#         model = MatchImage
-#
-#
-# class MatchKeySerializer(DjongoModelSerializer):
-#     class Meta:
-#         fields = 'match_keyword'
-#         model = MatchKey
-#
-#
-# class MatchDefSerializer(DjongoModelSerializer):
-#     class Meta:
-#         fields = 'match_definition'
-#         model = MatchDef
-#
-# class MatchGameSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         fields = '__all__'
-#         model = MatchupGame
-#
-# class AllSerializer(serializers.ModelSerializer):
-#     Title = MatchGameSerializer(write_only=True)
-#     # Img = MatchDefSerializer(many=True, write_only=True)
-#     # Key = MatchKeySerializer(many=True, write_only=True)
-#     # Def = MatchDefSerializer(many=True, write_only=True)
-#
-#     class Meta:
-#         fields = ['Title']
-#         model = MatchupGame
-#         abstract = True
+class EntrySerializer(DjongoModelSerializer):
+    # keywords = serializers.SerializerMethodField()
+    # definitions = serializers.SerializerMethodField()
+    # match = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = ('keywords', 'definitions', 'match', 'id')
+        model = Entry
+        # abstract = True
+
+    def get_keywords(self, obj):
+        return_data = None
+        if type(obj.keywords) == list:
+            embedded_list = []
+            for item in obj.keywords:
+                embedded_dict = item.__dict__
+                for key in list(embedded_dict.keys()):
+                    if key.startswith('_'):
+                        embedded_dict.pop(key)
+                embedded_list.append(embedded_dict)
+            return_data = embedded_list
+        else:
+            embedded_dict = obj.embedded_field
+            for key in list(embedded_dict.keys()):
+                if key.startswith('_'):
+                    embedded_dict.pop(key)
+            return_data = embedded_dict
+        return return_data
+
+    def get_definitions(self, obj):
+        return_data = None
+        if type(obj.definitions) == list:
+            embedded_list = []
+            for item in obj.definitions:
+                embedded_dict = item.__dict__
+                for key in list(embedded_dict.keys()):
+                    if key.startswith('_'):
+                        embedded_dict.pop(key)
+                embedded_list.append(embedded_dict)
+            return_data = embedded_list
+        else:
+            embedded_dict = obj.embedded_field
+            for key in list(embedded_dict.keys()):
+                if key.startswith('_'):
+                    embedded_dict.pop(key)
+            return_data = embedded_dict
+        return return_data

@@ -94,7 +94,7 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'mongo': {
         'ENGINE': 'djongo',
         "CLIENT": {
             "host": "mongodb+srv://<username>:<password>@clustertv.05qgb.mongodb.net/<dbname>?retryWrites=true&w=majority",
@@ -108,6 +108,10 @@ DATABASES = {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
+    },
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'tamildbnew'
     }
 }
 
