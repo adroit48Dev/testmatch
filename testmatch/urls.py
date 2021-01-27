@@ -27,9 +27,12 @@ from django.urls import path, include
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+#
+# router.register(r'api/match', views.MatchContentViewSet)
+# router.register(r'api/template', views.EntryViewSet)
+# router.register(r'api/order', views.PortfolioViewSet)
+router.register(r'api/matgame', views.GameListViewSet)
 
-router.register(r'api/match', views.MatchContentViewSet)
-router.register(r'api/template', views.EntryViewSet)
 
 
 urlpatterns = [
