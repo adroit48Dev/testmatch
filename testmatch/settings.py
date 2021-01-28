@@ -106,8 +106,9 @@ DATABASES = {
 
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'tamildb',
-
+            'NAME': 'dcv1j1jkhkt2p8',
+            'USERNAME': 'uogtuqpchjjajr',
+            'PASSWORD': 'ef630cf58993ba6a22872c32ad1eda5659c758b9514fdb363a0573a349e40534',
             'HOST': '127.0.0.1',
             'PORT': '5432',
         }
